@@ -17,9 +17,11 @@ java.targetCompatibility = JavaVersion.VERSION_11
 dependencies {
 
     val jcTools = System.getenv("JC_HOME_TOOLS") + "/lib/tools.jar"
+    val jcSimulator = System.getenv("JC_HOME_SIMULATOR") + "/lib/api_classic.jar"
 
     implementation(files(jcTools))
-    implementation(files("C:/Program Files (x86)/Oracle/Java Card Development Kit Simulator 3.1.0/lib/api_classic.jar"))
+    implementation(files(jcSimulator))
+
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation("org.apache.commons:commons-lang3:3.14.0")
 
