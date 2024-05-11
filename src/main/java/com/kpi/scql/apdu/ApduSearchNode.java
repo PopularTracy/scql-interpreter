@@ -1,12 +1,14 @@
 package com.kpi.scql.apdu;
 
-public class SearchNode {
+import com.kpi.scql.enums.COMPARISON_ENUM;
+
+public class ApduSearchNode {
 
     String columnName;
     String operator;
     String value;
 
-    public SearchNode(String columnName, String operator, String value) {
+    public ApduSearchNode(String columnName, String operator, String value) {
         this.columnName = columnName;
         this.operator = operator;
         this.value = value;

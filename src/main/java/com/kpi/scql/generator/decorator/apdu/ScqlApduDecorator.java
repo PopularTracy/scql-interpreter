@@ -1,8 +1,8 @@
 package com.kpi.scql.generator.decorator.apdu;
 
 import com.kpi.scql.apdu.ApduAst;
-import com.kpi.scql.apdu.SearchNode;
-import com.kpi.scql.operation.OPERATION_TYPE_GROUP;
+import com.kpi.scql.apdu.ApduSearchNode;
+import com.kpi.scql.enums.OPERATION_GROUP;
 import com.sun.javacard.apduio.Apdu;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -19,9 +19,9 @@ public class ScqlApduDecorator extends BaseApduDecorator {
             throw new NullPointerException("APDU AST cannot be null!");
         }
 
-        if (apduAst.getIns() != OPERATION_TYPE_GROUP.SCQL) {
-            throw new IllegalArgumentException("INS operation is not SCQL creation type. Expected"
-                    + OPERATION_TYPE_GROUP.SCQL
+        if (apduAst.getIns() != OPERATION_GROUP.SCQL) {
+            throw new IllegalArgumentException("INS enums is not SCQL creation type. Expected"
+                    + OPERATION_GROUP.SCQL
                     + ", found " + apduAst.getIns());
         }
 
@@ -55,9 +55,9 @@ public class ScqlApduDecorator extends BaseApduDecorator {
                 data = update(apduAst);
                 break;
             default:
-                throw new IllegalArgumentException("P2 operation "
+                throw new IllegalArgumentException("P2 enums "
                         + apduAst.getP2() + " not supported with "
-                        + OPERATION_TYPE_GROUP.SCQL
+                        + OPERATION_GROUP.SCQL
                 );
         }
 
@@ -175,14 +175,14 @@ public class ScqlApduDecorator extends BaseApduDecorator {
             }
         }
 
-        List<SearchNode> search = apduAst.getSearchNodes();
+        List<ApduSearchNode> search = apduAst.getSearchNodes();
 
         if (!search.isEmpty()) {
 
             // N of searches
             data.add((byte) search.size());
 
-            for (SearchNode node : search) {
+            for (ApduSearchNode node : search) {
                 // lp column name, lp comparison operator, lp string
                 processObj(data, node.getColumnName());
                 data.add((byte) 1);

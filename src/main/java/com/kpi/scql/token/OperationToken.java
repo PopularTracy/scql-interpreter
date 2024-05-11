@@ -1,17 +1,17 @@
 package com.kpi.scql.token;
 
-import com.kpi.scql.operation.OPERATION;
-import com.kpi.scql.operation.OPERATION_TYPE_GROUP;
+import com.kpi.scql.enums.OPERATION;
+import com.kpi.scql.enums.OPERATION_GROUP;
 
 public class OperationToken {
 
-    private OPERATION_TYPE_GROUP INS;
+    private OPERATION_GROUP INS;
     private OPERATION operation;
 
     public OperationToken() {
     }
 
-    public OperationToken(OPERATION_TYPE_GROUP INS, OPERATION operation) {
+    public OperationToken(OPERATION_GROUP INS, OPERATION operation) {
         this.INS = INS;
         this.operation = operation;
     }
@@ -24,11 +24,11 @@ public class OperationToken {
         this.operation = operation;
     }
 
-    public OPERATION_TYPE_GROUP getINS() {
+    public OPERATION_GROUP getINS() {
         return INS;
     }
 
-    public void setINS(OPERATION_TYPE_GROUP INS) {
+    public void setINS(OPERATION_GROUP INS) {
         this.INS = INS;
     }
 }

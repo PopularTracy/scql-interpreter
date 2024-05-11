@@ -1,6 +1,6 @@
-package com.kpi.scql.apdu;
+package com.kpi.scql.enums;
 
-public enum APDU_FIELD_TYPE {
+public enum FIELD_TYPE {
     TABLE,
     VIEW,
     COLUMN,

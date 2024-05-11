@@ -1,8 +1,8 @@
-package com.kpi.scql.operation;
+package com.kpi.scql.enums;
 
 import java.util.Arrays;
 
-public enum OPERATION_TYPE_GROUP {
+public enum OPERATION_GROUP {
 
     SCQL(0x10, new OPERATION[]{
             OPERATION.CREATE_TABLE,
@@ -37,12 +37,12 @@ public enum OPERATION_TYPE_GROUP {
     private final int insCode;
     private final OPERATION[] operations;
 
-    OPERATION_TYPE_GROUP(int insCode, OPERATION[] operations) {
+    OPERATION_GROUP(int insCode, OPERATION[] operations) {
         this.insCode = insCode;
         this.operations = operations;
     }
 
-    public static OPERATION_TYPE_GROUP findGroup(OPERATION operation) {
+    public static OPERATION_GROUP findGroup(OPERATION operation) {
         return Arrays.stream(values())
                 .filter(opg -> Arrays.asList(opg.operations).contains(operation))
                 .findFirst()

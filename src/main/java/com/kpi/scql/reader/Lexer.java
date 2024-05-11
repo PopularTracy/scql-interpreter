@@ -1,9 +1,9 @@
 package com.kpi.scql.reader;
 
 import com.kpi.scql.exception.NotSupportedTokenException;
-import com.kpi.scql.operation.OPERATION;
-import com.kpi.scql.operation.OPERATION_TYPE_GROUP;
-import com.kpi.scql.token.FUNCTIONAL_TOKEN_TYPE;
+import com.kpi.scql.enums.OPERATION;
+import com.kpi.scql.enums.OPERATION_GROUP;
+import com.kpi.scql.enums.FUNCTIONAL_TYPE;
 import com.kpi.scql.token.FunctionalToken;
 import com.kpi.scql.token.OperationToken;
 
@@ -47,7 +47,7 @@ public class Lexer {
             throw new NotSupportedTokenException("Token " + str + " is not supported!");
         }
 
-        OPERATION_TYPE_GROUP ins = OPERATION_TYPE_GROUP.findGroup(op);
+        OPERATION_GROUP ins = OPERATION_GROUP.findGroup(op);
 
         return new OperationToken(ins, op);
     }
@@ -55,28 +55,28 @@ public class Lexer {
     public FunctionalToken nextAttribute() {
         String keyword = consume();
         switch (keyword.toUpperCase()) {
-            case "'": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
-            case "(": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.LBRACKET);
-            case ")": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.RBRACKET);
-            case "*": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.ASTERISK);
-            case ",": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.COMMA);
-            case ";": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
-            case "=": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.EQUAL, keyword);
-            case "!=": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.NOT_EQUAL, keyword);
-            case ">": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.MORE_THAN, keyword);
-            case "<": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.LESS_THAN, keyword);
-            case ">=": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.EQUAL_MORE_THEN, keyword);
-            case "<=": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.EQUAL_LESS_THAN, keyword);
-            case "AS": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.AS);
-            case "SELECT": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.SELECT);
-            case "FROM": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.FROM);
-            case "WHERE": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.WHERE);
-            case "AND": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.AND);
-            case "VALUES": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.VALUES);
-            case "FOR": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.FOR);
-            case "SET": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.SET);
-            case "EOF": return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.EOF);
-            default: return new FunctionalToken(FUNCTIONAL_TOKEN_TYPE.ATTRIBUTE, keyword);
+            case "'": return new FunctionalToken(FUNCTIONAL_TYPE.APOSTROPHE);
+            case "(": return new FunctionalToken(FUNCTIONAL_TYPE.LBRACKET);
+            case ")": return new FunctionalToken(FUNCTIONAL_TYPE.RBRACKET);
+            case "*": return new FunctionalToken(FUNCTIONAL_TYPE.ASTERISK);
+            case ",": return new FunctionalToken(FUNCTIONAL_TYPE.COMMA);
+            case ";": return new FunctionalToken(FUNCTIONAL_TYPE.SEMICOLON);
+            case "=": return new FunctionalToken(FUNCTIONAL_TYPE.EQUAL, keyword);
+            case "!=": return new FunctionalToken(FUNCTIONAL_TYPE.NOT_EQUAL, keyword);
+            case ">": return new FunctionalToken(FUNCTIONAL_TYPE.MORE_THAN, keyword);
+            case "<": return new FunctionalToken(FUNCTIONAL_TYPE.LESS_THAN, keyword);
+            case ">=": return new FunctionalToken(FUNCTIONAL_TYPE.EQUAL_MORE_THEN, keyword);
+            case "<=": return new FunctionalToken(FUNCTIONAL_TYPE.EQUAL_LESS_THAN, keyword);
+            case "AS": return new FunctionalToken(FUNCTIONAL_TYPE.AS);
+            case "SELECT": return new FunctionalToken(FUNCTIONAL_TYPE.SELECT);
+            case "FROM": return new FunctionalToken(FUNCTIONAL_TYPE.FROM);
+            case "WHERE": return new FunctionalToken(FUNCTIONAL_TYPE.WHERE);
+            case "AND": return new FunctionalToken(FUNCTIONAL_TYPE.AND);
+            case "VALUES": return new FunctionalToken(FUNCTIONAL_TYPE.VALUES);
+            case "FOR": return new FunctionalToken(FUNCTIONAL_TYPE.FOR);
+            case "SET": return new FunctionalToken(FUNCTIONAL_TYPE.SET);
+            case "EOF": return new FunctionalToken(FUNCTIONAL_TYPE.EOF);
+            default: return new FunctionalToken(FUNCTIONAL_TYPE.ATTRIBUTE, keyword);
         }
     }
 

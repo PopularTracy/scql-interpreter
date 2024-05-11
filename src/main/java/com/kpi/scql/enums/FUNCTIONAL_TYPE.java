@@ -1,6 +1,6 @@
-package com.kpi.scql.token;
+package com.kpi.scql.enums;
 
-public enum FUNCTIONAL_TOKEN_TYPE {
+public enum FUNCTIONAL_TYPE {
     // Symbols
     LBRACKET,
     RBRACKET,

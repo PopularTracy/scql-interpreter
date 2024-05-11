@@ -1,4 +1,4 @@
-package com.kpi.scql.operation;
+package com.kpi.scql.enums;
 
 import java.util.Arrays;
 

@@ -1,11 +1,13 @@
 package com.kpi.scql.apdu;
 
-public class Storage {
+import com.kpi.scql.enums.FIELD_TYPE;
+
+public class ApduField {
 
     private String objName;
-    private APDU_FIELD_TYPE objType;
+    private FIELD_TYPE objType;
 
-    public Storage(String objName, APDU_FIELD_TYPE objType) {
+    public ApduField(String objName, FIELD_TYPE objType) {
         this.objName = objName;
         this.objType = objType;
     }
@@ -18,11 +20,11 @@ public class Storage {
         this.objName = objName;
     }
 
-    public APDU_FIELD_TYPE getObjType() {
+    public FIELD_TYPE getObjType() {
         return objType;
     }
 
-    public void setObjType(APDU_FIELD_TYPE objType) {
+    public void setObjType(FIELD_TYPE objType) {
         this.objType = objType;
     }
 

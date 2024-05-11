@@ -1,11 +1,11 @@
 package com.kpi.scql;
 
-import com.kpi.scql.apdu.APDU_FIELD_TYPE;
+import com.kpi.scql.enums.FIELD_TYPE;
 import com.kpi.scql.apdu.ApduAst;
 import com.kpi.scql.exception.MatchTokenException;
 import com.kpi.scql.exception.NotSupportedTokenException;
 import com.kpi.scql.reader.Lexer;
-import com.kpi.scql.token.FUNCTIONAL_TOKEN_TYPE;
+import com.kpi.scql.enums.FUNCTIONAL_TYPE;
 import com.kpi.scql.token.FunctionalToken;
 import com.kpi.scql.token.OperationToken;
 
@@ -99,14 +99,14 @@ public class Parser {
         consumeAttribute(apduAST::addTable);
 
         // (
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.LBRACKET);
+        matchTokenStrong(FUNCTIONAL_TYPE.LBRACKET);
 
         FunctionalToken token = consumeToken(apduAST::addColumn);
 
         // )
-        matchTokenStrong(token, FUNCTIONAL_TOKEN_TYPE.RBRACKET);
+        matchTokenStrong(token, FUNCTIONAL_TYPE.RBRACKET);
         // ; - end of
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -123,13 +123,13 @@ public class Parser {
         // name
         consumeAttribute(apduAST::addView);
 
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.AS);
+        matchTokenStrong(FUNCTIONAL_TYPE.AS);
 
         // SELECT
         FunctionalToken clause = select();
 
         // ; - end of
-        matchTokenStrong(clause, FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(clause, FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -144,12 +144,12 @@ public class Parser {
         // table_name
         consumeAttribute(apduAST::addTable);
 
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.VALUES);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.LBRACKET);
+        matchTokenStrong(FUNCTIONAL_TYPE.VALUES);
+        matchTokenStrong(FUNCTIONAL_TYPE.LBRACKET);
 
         FunctionalToken nextOperand = consumeToken(apduAST::addData);
-        matchTokenStrong(nextOperand, FUNCTIONAL_TOKEN_TYPE.RBRACKET);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(nextOperand, FUNCTIONAL_TYPE.RBRACKET);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -162,11 +162,11 @@ public class Parser {
         // DECLARE CURSOR
         apduAST.addOperation(operationToken);
 
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.FOR);
+        matchTokenStrong(FUNCTIONAL_TYPE.FOR);
 
         FunctionalToken token = select();
 
-        matchTokenStrong(token, FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(token, FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -177,7 +177,7 @@ public class Parser {
      */
     private void open(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -187,7 +187,7 @@ public class Parser {
      */
     private void nextOperation(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -197,7 +197,7 @@ public class Parser {
      */
     private void fetch(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -207,7 +207,7 @@ public class Parser {
      */
     private void fetchNext(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -219,7 +219,7 @@ public class Parser {
         apduAST.addOperation(operationToken);
         // table_name
         consumeAttribute(apduAST::addTable);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -231,7 +231,7 @@ public class Parser {
         apduAST.addOperation(operationToken);
         // view_name
         consumeAttribute(apduAST::addView);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -241,7 +241,7 @@ public class Parser {
      */
     private void delete(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -252,7 +252,7 @@ public class Parser {
     private void update(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
 
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SET);
+        matchTokenStrong(FUNCTIONAL_TYPE.SET);
 
         FunctionalToken clause;
 
@@ -260,16 +260,16 @@ public class Parser {
             // Column name
             consumeAttribute(apduAST::addColumn);
 
-            matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.EQUAL);
+            matchTokenStrong(FUNCTIONAL_TYPE.EQUAL);
 
-            matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+            matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
             consumeAttribute(apduAST::addData);
-            matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+            matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
 
             clause = next();
-        } while (matchTokenBool(clause, FUNCTIONAL_TOKEN_TYPE.COMMA));
+        } while (matchTokenBool(clause, FUNCTIONAL_TYPE.COMMA));
 
-        matchTokenStrong(clause, FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(clause, FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -279,7 +279,7 @@ public class Parser {
      */
     private void begin(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -289,7 +289,7 @@ public class Parser {
      */
     private void commit(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -299,7 +299,7 @@ public class Parser {
      */
     private void rollback(OperationToken operationToken) throws MatchTokenException {
         apduAST.addOperation(operationToken);
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SEMICOLON);
+        matchTokenStrong(FUNCTIONAL_TYPE.SEMICOLON);
     }
 
     /**
@@ -312,12 +312,12 @@ public class Parser {
         FunctionalToken nextOperand;
         do {
 
-            matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+            matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
             consumeAttribute(consumer);
-            matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+            matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
 
             nextOperand = next();
-        } while (matchTokenBool(nextOperand, FUNCTIONAL_TOKEN_TYPE.COMMA));
+        } while (matchTokenBool(nextOperand, FUNCTIONAL_TYPE.COMMA));
 
         return nextOperand;
     }
@@ -329,32 +329,32 @@ public class Parser {
      * @throws MatchTokenException
      */
     private FunctionalToken select() throws MatchTokenException {
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.SELECT);
+        matchTokenStrong(FUNCTIONAL_TYPE.SELECT);
 
         FunctionalToken nextOperand = next();
 
-        if (matchTokenBool(nextOperand, FUNCTIONAL_TOKEN_TYPE.ASTERISK)) {
+        if (matchTokenBool(nextOperand, FUNCTIONAL_TYPE.ASTERISK)) {
             apduAST.addColumn("*");
         } else {
             // ( 'column' [, 'column'])
             // (
-            matchTokenStrong(nextOperand, FUNCTIONAL_TOKEN_TYPE.LBRACKET);
+            matchTokenStrong(nextOperand, FUNCTIONAL_TYPE.LBRACKET);
             FunctionalToken attr = consumeToken(apduAST::addColumn);
-            matchTokenStrong(attr, FUNCTIONAL_TOKEN_TYPE.RBRACKET);
+            matchTokenStrong(attr, FUNCTIONAL_TYPE.RBRACKET);
         }
 
-        matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.FROM);
+        matchTokenStrong(FUNCTIONAL_TYPE.FROM);
 
         // table name
         FunctionalToken tableName = next();
-        matchTokenStrong(tableName, FUNCTIONAL_TOKEN_TYPE.ATTRIBUTE);
-        apduAST.addDependent(tableName.getValue(), APDU_FIELD_TYPE.TABLE);
+        matchTokenStrong(tableName, FUNCTIONAL_TYPE.ATTRIBUTE);
+        apduAST.addDependent(tableName.getValue(), FIELD_TYPE.TABLE);
 
         FunctionalToken clause = next();
-        if (matchTokenBool(clause, FUNCTIONAL_TOKEN_TYPE.WHERE)) {
+        if (matchTokenBool(clause, FUNCTIONAL_TYPE.WHERE)) {
             do {
                 FunctionalToken column = next();
-                matchTokenStrong(column, FUNCTIONAL_TOKEN_TYPE.ATTRIBUTE);
+                matchTokenStrong(column, FUNCTIONAL_TYPE.ATTRIBUTE);
 
                 FunctionalToken operand = next();
                 switch (operand.getTokenType()) {
@@ -370,16 +370,16 @@ public class Parser {
                 }
 
                 // '
-                matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+                matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
 
                 FunctionalToken condition = next();
-                matchTokenStrong(condition, FUNCTIONAL_TOKEN_TYPE.ATTRIBUTE);
+                matchTokenStrong(condition, FUNCTIONAL_TYPE.ATTRIBUTE);
 
-                matchTokenStrong(FUNCTIONAL_TOKEN_TYPE.APOSTROPHE);
+                matchTokenStrong(FUNCTIONAL_TYPE.APOSTROPHE);
 
                 apduAST.addSearchNode(column.getValue(), operand.getValue(), condition.getValue());
                 clause = next();
-            } while (matchTokenBool(clause, FUNCTIONAL_TOKEN_TYPE.AND));
+            } while (matchTokenBool(clause, FUNCTIONAL_TYPE.AND));
         }
 
         return clause;
@@ -387,15 +387,15 @@ public class Parser {
 
     private void consumeAttribute(Consumer<String> astConsumer) throws MatchTokenException {
         FunctionalToken token = next();
-        matchTokenStrong(token, FUNCTIONAL_TOKEN_TYPE.ATTRIBUTE);
+        matchTokenStrong(token, FUNCTIONAL_TYPE.ATTRIBUTE);
         astConsumer.accept(token.getValue());
     }
 
-    private void matchTokenStrong(FUNCTIONAL_TOKEN_TYPE expected) throws MatchTokenException {
+    private void matchTokenStrong(FUNCTIONAL_TYPE expected) throws MatchTokenException {
         matchTokenStrong(next(), expected);
     }
 
-    private void matchTokenStrong(FunctionalToken current, FUNCTIONAL_TOKEN_TYPE expected) throws MatchTokenException {
+    private void matchTokenStrong(FunctionalToken current, FUNCTIONAL_TYPE expected) throws MatchTokenException {
 
         if (current == null) {
             throw new NullPointerException("Token is null");
@@ -404,7 +404,7 @@ public class Parser {
         matchTokenStrong(current.getTokenType(), expected);
     }
 
-    private void matchTokenStrong(FUNCTIONAL_TOKEN_TYPE current, FUNCTIONAL_TOKEN_TYPE expected) throws MatchTokenException {
+    private void matchTokenStrong(FUNCTIONAL_TYPE current, FUNCTIONAL_TYPE expected) throws MatchTokenException {
 
         if (current == null) {
             throw new NullPointerException("Token is null");
@@ -416,11 +416,11 @@ public class Parser {
         }
     }
 
-    private boolean matchTokenBool(FUNCTIONAL_TOKEN_TYPE expected) {
+    private boolean matchTokenBool(FUNCTIONAL_TYPE expected) {
         return matchTokenBool(next(), expected);
     }
 
-    private boolean matchTokenBool(FunctionalToken current, FUNCTIONAL_TOKEN_TYPE expected) {
+    private boolean matchTokenBool(FunctionalToken current, FUNCTIONAL_TYPE expected) {
         if (current == null) {
             throw new NullPointerException("Token is null");
         }
