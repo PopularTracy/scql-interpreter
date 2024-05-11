@@ -1,2 +1,2 @@
-rootProject.name = "scql"
+rootProject.name = "scql-interpreter"
 
