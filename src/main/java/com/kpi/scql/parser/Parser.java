@@ -1,4 +1,4 @@
-package com.kpi.scql;
+package com.kpi.scql.parser;
 
 import com.kpi.scql.enums.FIELD_TYPE;
 import com.kpi.scql.apdu.ApduAst;

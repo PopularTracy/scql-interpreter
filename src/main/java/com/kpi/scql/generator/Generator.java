@@ -1,6 +1,6 @@
 package com.kpi.scql.generator;
 
-import com.kpi.scql.ApduContainer;
+import com.kpi.scql.apdu.ApduContainer;
 import com.kpi.scql.apdu.ApduAst;
 import com.kpi.scql.exception.NotSupportedApduException;
 import com.kpi.scql.generator.decorator.apdu.BaseApduDecorator;

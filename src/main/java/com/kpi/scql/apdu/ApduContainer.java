@@ -1,4 +1,4 @@
-package com.kpi.scql;
+package com.kpi.scql.apdu;
 
 import com.sun.javacard.apduio.Apdu;
 
