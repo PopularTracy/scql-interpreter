@@ -29,6 +29,32 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.javadoc {
+    // Set the source for Javadoc generation
+    source = sourceSets.main.get().allJava
+
+    // Set the classpath for the Javadoc generation
+    classpath = sourceSets.main.get().compileClasspath
+
+    // Configure additional Javadoc options here if needed
+    options {
+        // Set the title of the generated documentation
+        title = "SCQL Interpreter"
+
+        // Configure other options as needed
+        encoding = "UTF-8"
+        memberLevel = JavadocMemberLevel.PUBLIC
+        // Add other Javadoc options if required
+    }
+}
+
+// Add a custom task to generate the Javadoc jar
+tasks.register<Jar>("javadocJar") {
+    dependsOn(tasks.javadoc)
+    from(tasks.javadoc.get().destinationDir)
+    archiveClassifier.set("javadoc")
+}
+
 tasks.test {
     useJUnitPlatform()
 }
